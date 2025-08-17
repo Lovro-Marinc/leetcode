@@ -1,10 +1,33 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-Console.WriteLine();
+Console.WriteLine(LengthOfLongestSubstring("abba"));
 
 
 
+int LengthOfLongestSubstring(string s)
+{
+    int len = s.Length;
+    if (len <= 1)
+        return len;
 
+    int max = 0;
+    int pt1 = 0;
+    int pt2 = 0;
+
+    Dictionary<char, int> map = new Dictionary<char, int>();
+    while (pt2 < len)
+    {
+        char c = s[pt2];
+        if (map.ContainsKey(c))
+        {
+            pt1 = Math.Max(map[c] + 1, pt1);
+        }
+        map[c] = pt2;
+        max = Math.Max(max, pt2 - pt1 + 1);
+        pt2++;
+    }
+    return max;
+}
 ListNode AddTwoNumbers(ListNode l1, ListNode l2)
 {
     //ListNode l1 = new ListNode(9,
