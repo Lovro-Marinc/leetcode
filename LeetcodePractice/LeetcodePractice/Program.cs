@@ -1,10 +1,60 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-Console.WriteLine(FindMedianSortedArrays([], [1]));
+using System.Diagnostics.Metrics;
 
+Console.WriteLine();
+string LongestPalindrome(string s)
+{
+    //LongestPalindrome("babad")
+    string max = s[0].ToString();
+
+    int len = s.Length;
+
+    if (len == 1)
+        return s;
+
+
+    for (int i = 0; i < len; i++)
+    {
+
+        //check letter for center
+        int left = i - 1;
+        int right = i + 1;
+        int counter = 0;
+        while (left >= 0 && right < len && s[right] == s[left])
+        {
+            counter++;
+            left--;
+            right++;
+        }
+        if (counter * 2 + 1 > max.Length)
+            max = s.Substring(left + 1, right - (left + 1));
+
+
+    }
+
+    for (int i = 0; i < len; i++)
+    {
+        //check middle for center
+        int left = i - 1;
+        int right = i;
+        int counter = 0;
+        while (left >= 0 && right < len && s[right] == s[left])
+        {
+            counter++;
+            left--;
+            right++;
+        }
+        if (counter * 2 > max.Length)
+            max = s.Substring(left + 1, right - (left + 1));
+    }
+
+    return max;
+}
 
 double FindMedianSortedArrays(int[] nums1, int[] nums2)
 {
+    //FindMedianSortedArrays([], [1])
     if (nums1.Length > nums2.Length)
         return FindMedianSortedArrays(nums2, nums1);
 
