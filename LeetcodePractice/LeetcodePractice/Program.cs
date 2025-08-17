@@ -1,11 +1,101 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-Console.WriteLine(LengthOfLongestSubstring("abba"));
+Console.WriteLine(FindMedianSortedArrays([], [1]));
 
 
+double FindMedianSortedArrays(int[] nums1, int[] nums2)
+{
+    if (nums1.Length > nums2.Length)
+        return FindMedianSortedArrays(nums2, nums1);
+
+    int m = 0;
+    m = nums1.Length;
+
+    int n = nums2.Length;
+    double res = double.NaN;
+
+    int len = m + n;
+    if (m == 0)
+        return (len % 2 == 0) ? (nums2[n / 2 - 1] + nums2[n / 2]) / 2.0 : (nums2[n / 2]);
+    int mMiddle;
+    int nMiddle;
+
+    int low = 0;
+    int high = m;
+
+    while (true)
+    {
+        mMiddle = (low + high) / 2;
+        nMiddle = (len + 1) / 2 - mMiddle;
+        int l1, r1;
+        int l2, r2;
+        if (mMiddle == 0)
+        {
+            l1 = int.MinValue;
+            r1 = nums1[mMiddle];
+        }
+        else if (mMiddle == m)
+        {
+            l1 = nums1[mMiddle - 1];
+            r1 = int.MaxValue;
+        }
+        else
+        {
+            l1 = nums1[mMiddle - 1];
+            r1 = nums1[mMiddle];
+        }
+        if (nMiddle == 0)
+        {
+            l2 = int.MinValue;
+            r2 = nums2[nMiddle];
+        }
+        else if (nMiddle == n)
+        {
+            l2 = nums2[nMiddle - 1];
+            r2 = int.MaxValue;
+        }
+        else
+        {
+            l2 = nums2[nMiddle - 1];
+            r2 = nums2[nMiddle];
+        }
+
+
+        if (l1 <= r2 && l2 <= r1)
+        {
+            if (len % 2 == 0)
+            {
+                return (Math.Max(l1, l2) + Math.Min(r1, r2)) / 2.0;
+            }
+            else
+            {
+                return Math.Max(l1, l2);
+            }
+        }
+
+        if (l1 > r2)
+        {
+            high = mMiddle - 1;
+        }
+
+        else
+        {
+            low = mMiddle + 1;
+        }
+
+    }
+
+
+
+
+
+
+    return res;
+}
 
 int LengthOfLongestSubstring(string s)
 {
+    //(LengthOfLongestSubstring("abba")
     int len = s.Length;
     if (len <= 1)
         return len;
@@ -13,6 +103,8 @@ int LengthOfLongestSubstring(string s)
     int max = 0;
     int pt1 = 0;
     int pt2 = 0;
+
+
 
     Dictionary<char, int> map = new Dictionary<char, int>();
     while (pt2 < len)
