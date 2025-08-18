@@ -1,8 +1,47 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Diagnostics.Metrics;
+using System.Text;
 
-Console.WriteLine();
+Console.WriteLine(Convert("PAYPALISHIRING", 3));
+
+
+string Convert(string s, int numRows)
+{
+    if (numRows == 1 || s.Length <= numRows)
+    {
+        return s;
+    }
+
+    var rows = new StringBuilder[numRows];
+    for (int i = 0; i < numRows; i++)
+    {
+        rows[i] = new StringBuilder();
+    }
+
+    int currentRow = 0;
+    int direction = 1;
+
+    foreach (char c in s)
+    {
+        rows[currentRow].Append(c);
+        currentRow += direction;
+
+        if (currentRow == 0 || currentRow == numRows - 1)
+        {
+            direction *= -1;
+        }
+    }
+
+    var result = new StringBuilder(s.Length);
+    foreach (var row in rows)
+    {
+        result.Append(row);
+    }
+
+    return result.ToString();
+}
+
 string LongestPalindrome(string s)
 {
     //LongestPalindrome("babad")
